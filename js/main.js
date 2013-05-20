@@ -1,6 +1,7 @@
 $(function() {
 	APP.init();
 	Cat.init({name:'Степка', weight:2});
+	console.log(Cat);
 });
 
 var APP = (function($){
@@ -43,10 +44,15 @@ var Cat = (function($,_){
 	mod.init = function (options) {
 		$.extend(mod.options, options);
 		show();
-
 	}
 	return mod;
 }(jQuery,_));
+
+(function($,animal){
+	animal.get_name = function () {
+		console.log(animal.options.name);
+	}
+}(jQuery,Cat));
 
 
 
