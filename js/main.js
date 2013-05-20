@@ -1,5 +1,5 @@
 var APP = APP || {};
 APP = (function(j){
-	console.log(j('body').hmtl());
+	console.log(j('body').html());
 
 })(jQuery);
