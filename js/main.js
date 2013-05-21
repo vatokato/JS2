@@ -1,7 +1,25 @@
 $(function() {
 	APP.init();
-	Cat.init({name:'Степка', weight:2});
-	console.log(Cat);
+	Animal.init({
+		name:'Степка',
+		weight:2,
+		success : function () {
+			console.log('##############');
+			console.log(this);
+			console.log('##############');
+		}
+	});
+
+	Animal.init({
+		name:'Васька'
+	});
+
+	Animal.init({
+		name:'Тузик'
+	});
+
+
+
 });
 
 var APP = (function($){
@@ -14,45 +32,50 @@ var APP = (function($){
 }(jQuery));
 
 
-var Cat = (function($,_){
-	var mod = {
-		options : {
+var Animal = (function($,_){
+	"use strict";
+	var MOD = {},
+		_defaults = {
 			name: 'Вася',
 			eye: 'green',
-			weight: 5
+			weight: 5,
+			success : function () {
+
+			}
 		},
-		tmpl : {
+		_tmpl = {
 			name :      _.template('<div>меня зовут <%= name %></div>'),
 			weight :    _.template('<div>мой вес  <%= weight %> килограммов, я <%= text %>!</div>')
-		}
-	};
+		};
+
 
 	function check_weight () {
-		return mod.options.weight > 3 ? 'жирный и убогий' : 'резвый и здоровый';
+		return MOD.weight > 3 ? 'жирный и убогий' : 'резвый и здоровый';
 	}
 
 	function show () {
-		$('body').html( mod.tmpl.name({name : mod.options.name}) );
+		$('body').append( '<hr/>' );
+		$('body').append( _tmpl.name({name : MOD.name}) );
 		$('body').append(
-			mod.tmpl.weight({
-				weight : mod.options.weight,
+			_tmpl.weight({
+				weight : MOD.weight,
 				text : check_weight()
 			})
 		);
+		MOD.success();
 	}
 
-	mod.init = function (options) {
-		$.extend(mod.options, options);
+	MOD.init = function (options) {
+		$.extend(MOD, _defaults, options);
 		show();
 	}
-	return mod;
-}(jQuery,_));
-
-(function($,animal){
-	animal.get_name = function () {
-		console.log(animal.options.name);
+	MOD.get_name = function () {
+		console.log('my name: '+MOD.name);
 	}
-}(jQuery,Cat));
+
+	return MOD;
+}(jQuery, _));
+
 
 
 
